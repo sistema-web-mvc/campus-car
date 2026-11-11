@@ -1,5 +1,4 @@
 package com.mvp.campuscar.model;
-
 import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.FutureOrPresent;
@@ -24,9 +23,68 @@ public class Carona {
     @FutureOrPresent(message = "A carona deve ser no presente ou futuro")
     private LocalDateTime dataHora;
 
-    @NotNull
+    @NotNull(message = "O número de vagas é obrigatório")
     @Min(value = 1, message = "Deve haver pelo menos 1 vaga disponível")
     private Integer vagasDisponiveis;
 
-    // Construtores, Getters e Setters omitidos por brevidade
+    public Carona() {
+    }
+
+    public Carona(Long id, Long motoristaId, String origem, String destino, LocalDateTime dataHora, Integer vagasDisponiveis) {
+        this.id = id;
+        this.motoristaId = motoristaId;
+        this.origem = origem;
+        this.destino = destino;
+        this.dataHora = dataHora;
+        this.vagasDisponiveis = vagasDisponiveis;
+    }
+
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getMotoristaId() {
+        return motoristaId;
+    }
+
+    public void setMotoristaId(Long motoristaId) {
+        this.motoristaId = motoristaId;
+    }
+
+    public String getOrigem() {
+        return origem;
+    }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public Integer getVagasDisponiveis() {
+        return vagasDisponiveis;
+    }
+
+    public void setVagasDisponiveis(Integer vagasDisponiveis) {
+        this.vagasDisponiveis = vagasDisponiveis;
+    }
 }
