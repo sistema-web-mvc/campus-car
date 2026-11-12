@@ -10,7 +10,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.title = "Campus Car - Home";
+        model.addAttribute("title", "Campus Car - Home");
         // Aqui você pode injetar repositórios via construtor para buscar as caronas recentes e enviar para a view
         return "index"; // Renderiza templates/index.html
     }

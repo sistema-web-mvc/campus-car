@@ -1,6 +1,6 @@
 package com.mvp.campuscar.repository;
 
-import com.campuscar.model.Carona;
+import com.mvp.campuscar.model.Carona;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
