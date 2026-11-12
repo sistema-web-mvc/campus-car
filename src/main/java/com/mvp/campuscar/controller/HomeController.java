@@ -10,8 +10,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("title", "Campus Car - Home");
-        // Aqui você pode injetar repositórios via construtor para buscar as caronas recentes e enviar para a view
+   
         return "index"; // Renderiza templates/index.html
+    }
+
+    @GetMapping ("/caronas")
+    public String caronas(Model model) {
+
+        return "caronas"; // leva até a listagem de caronas
     }
 }
