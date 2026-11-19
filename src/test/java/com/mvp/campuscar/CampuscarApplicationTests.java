@@ -9,8 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -60,7 +58,8 @@ class CampuscarApplicationTests {
 	void paginasDeCadastroSaoExibidas() throws Exception {
 		mockMvc.perform(get("/caronas/criar"))
 				.andExpect(status().isOk())
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Criar carona")));
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Criar carona")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Aquila Silva")));
 
 		mockMvc.perform(get("/usuarios/criar"))
 				.andExpect(status().isOk())
@@ -82,40 +81,42 @@ class CampuscarApplicationTests {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/usuarios"));
 
-		String emailMotorista = "motorista-" + token + "@example.com";
-		usuarioRepository.save(new Usuario(null, "Motorista de teste", emailMotorista, "34999999998", true));
 		Long motoristaId = usuarioRepository.findAll().stream()
-				.filter(usuario -> emailMotorista.equals(usuario.getEmail()))
+				.filter(Usuario::isMotorista)
 				.findFirst()
 				.orElseThrow()
 				.getId();
-		String dataHora = LocalDateTime.now().plusDays(1).withSecond(0).withNano(0)
-				.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+		String disponibilidade = "De segunda a quarta pela manhã";
 
 		mockMvc.perform(post("/caronas/criar")
 						.param("motoristaId", motoristaId.toString())
 						.param("origem", "Centro")
 						.param("destino", "Campus")
-						.param("dataHora", dataHora)
+						.param("disponibilidade", disponibilidade)
 						.param("vagasDisponiveis", "2"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/caronas"));
 
 		mockMvc.perform(get("/caronas"))
 				.andExpect(status().isOk())
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Motorista de teste")));
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Aquila Silva")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString(disponibilidade)));
 	}
 
 	@Test
 	void criaSolicitacaoParaCaronaCadastrada() throws Exception {
-		String emailPassageiro = "solicitante-" + UUID.randomUUID() + "@example.com";
-		usuarioRepository.save(new Usuario(null, "Passageiro solicitante", emailPassageiro, "34999999997", false));
+		String emailMotorista = "solicitante-" + UUID.randomUUID() + "@example.com";
+		usuarioRepository.save(new Usuario(null, "Motorista solicitante", emailMotorista, "34999999997", true));
 		Long passageiroId = usuarioRepository.findAll().stream()
-				.filter(usuario -> emailPassageiro.equals(usuario.getEmail()))
+				.filter(usuario -> emailMotorista.equals(usuario.getEmail()))
 				.findFirst()
 				.orElseThrow()
 				.getId();
 		Long caronaId = caronaRepository.findAll().get(0).getId();
+
+		mockMvc.perform(get("/solicitacoes/criar"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Motorista solicitante")));
 
 		mockMvc.perform(post("/solicitacoes/criar")
 						.param("caronaId", caronaId.toString())
@@ -130,7 +131,7 @@ class CampuscarApplicationTests {
 
 		mockMvc.perform(get("/solicitacoes"))
 				.andExpect(status().isOk())
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Passageiro solicitante")));
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Motorista solicitante")));
 	}
 
 }

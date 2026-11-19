@@ -6,11 +6,11 @@ INSERT INTO usuarios (nome, email, telefone, is_motorista) VALUES ('Iara', 'iara
 INSERT INTO usuarios (nome, email, telefone, is_motorista) VALUES ('Oliver', 'oliver@email.com', '34999990999', FALSE);
 
 -- Caronas e solicitações de exemplo (motoristas: Aquila e Iara; passageiros: João, Ygor e Oliver)
-INSERT INTO caronas (motorista_id, origem, destino, data_hora, vagas_disponiveis)
-VALUES ((SELECT id FROM usuarios WHERE email = 'aquila@email.com'), 'Centro', 'Campus', '2026-06-10 08:00:00', 3);
+INSERT INTO caronas (motorista_id, origem, destino, disponibilidade, vagas_disponiveis)
+VALUES ((SELECT id FROM usuarios WHERE email = 'aquila@email.com'), 'Centro', 'Campus', 'Dirijo de segunda a quarta pela manhã.', 3);
 
-INSERT INTO caronas (motorista_id, origem, destino, data_hora, vagas_disponiveis)
-VALUES ((SELECT id FROM usuarios WHERE email = 'iara@email.com'), 'Campus', 'Centro', '2026-06-10 18:00:00', 2);
+INSERT INTO caronas (motorista_id, origem, destino, disponibilidade, vagas_disponiveis)
+VALUES ((SELECT id FROM usuarios WHERE email = 'iara@email.com'), 'Campus', 'Centro', 'Disponível para voltar ao Centro nos dias úteis à tarde.', 2);
 
 INSERT INTO solicitacoes (carona_id, passageiro_id, status)
 VALUES (

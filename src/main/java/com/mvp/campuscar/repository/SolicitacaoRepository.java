@@ -29,7 +29,7 @@ public class SolicitacaoRepository {
         carona.setId(solicitacao.getCaronaId());
         carona.setOrigem(rs.getString("carona_origem"));
         carona.setDestino(rs.getString("carona_destino"));
-        carona.setDataHora(rs.getTimestamp("carona_data_hora").toLocalDateTime());
+        carona.setDisponibilidade(rs.getString("carona_disponibilidade"));
         carona.setVagasDisponiveis(rs.getInt("carona_vagas"));
 
         Usuario motorista = new Usuario();
@@ -57,7 +57,7 @@ public class SolicitacaoRepository {
     public List<Solicitacao> findAll() {
         String sql = "SELECT s.id, s.carona_id, s.passageiro_id, s.status, " +
                 "c.origem AS carona_origem, c.destino AS carona_destino, " +
-                "c.data_hora AS carona_data_hora, c.vagas_disponiveis AS carona_vagas, " +
+                "c.disponibilidade AS carona_disponibilidade, c.vagas_disponiveis AS carona_vagas, " +
                 "c.motorista_id, m.nome AS motorista_nome, p.nome AS passageiro_nome " +
                 "FROM solicitacoes s " +
                 "JOIN caronas c ON s.carona_id = c.id " +

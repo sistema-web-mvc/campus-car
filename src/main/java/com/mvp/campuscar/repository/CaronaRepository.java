@@ -23,7 +23,7 @@ public class CaronaRepository {
         carona.setMotoristaId(rs.getLong("motorista_id"));
         carona.setOrigem(rs.getString("origem"));
         carona.setDestino(rs.getString("destino"));
-        carona.setDataHora(rs.getTimestamp("data_hora").toLocalDateTime());
+        carona.setDisponibilidade(rs.getString("disponibilidade"));
         carona.setVagasDisponiveis(rs.getInt("vagas_disponiveis"));
         Usuario motorista = new Usuario();
         motorista.setId(carona.getMotoristaId());
@@ -33,12 +33,12 @@ public class CaronaRepository {
     };
 
     public int save(Carona carona) {
-        String sql = "INSERT INTO caronas (motorista_id, origem, destino, data_hora, vagas_disponiveis) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO caronas (motorista_id, origem, destino, disponibilidade, vagas_disponiveis) VALUES (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, 
             carona.getMotoristaId(), 
             carona.getOrigem(), 
             carona.getDestino(), 
-            carona.getDataHora(), 
+            carona.getDisponibilidade(),
             carona.getVagasDisponiveis()
         );
     }

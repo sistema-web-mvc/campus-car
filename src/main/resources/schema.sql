@@ -13,7 +13,7 @@ CREATE TABLE caronas (
     motorista_is_motorista BOOLEAN NOT NULL DEFAULT TRUE CHECK (motorista_is_motorista = TRUE),
     origem VARCHAR(100) NOT NULL,
     destino VARCHAR(100) NOT NULL,
-    data_hora TIMESTAMP NOT NULL,
+    disponibilidade VARCHAR(255) NOT NULL,
     vagas_disponiveis INT NOT NULL,
     CONSTRAINT fk_motorista FOREIGN KEY (motorista_id, motorista_is_motorista)
         REFERENCES usuarios(id, is_motorista)

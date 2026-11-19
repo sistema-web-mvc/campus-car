@@ -19,7 +19,7 @@
                 <option value="">Selecione uma carona</option>
                 <option th:each="carona : ${caronas}"
                         th:value="${carona.id}"
-                        th:text="${carona.origem + ' para ' + carona.destino + ' - ' + carona.motorista.nome + ' - ' + carona.dataHora}"></option>
+                        th:text="${carona.origem + ' para ' + carona.destino + ' - ' + carona.motorista.nome + ' - ' + carona.disponibilidade}"></option>
             </select>
             <p th:if="${#fields.hasErrors('caronaId')}" th:errors="*{caronaId}"></p>
 

@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <tr th:each="solicitacao : ${solicitacoes}">
-                    <td th:text="${solicitacao.carona.origem + ' para ' + solicitacao.carona.destino + ' - ' + solicitacao.carona.dataHora}">Carona</td>
+                    <td th:text="${solicitacao.carona.origem + ' para ' + solicitacao.carona.destino + ' - ' + solicitacao.carona.disponibilidade}">Carona</td>
                     <td th:text="${solicitacao.carona.motorista.nome}">Motorista</td>
                     <td th:text="${solicitacao.passageiro.nome}">Passageiro</td>
                     <td th:text="${solicitacao.status}">PENDENTE</td>

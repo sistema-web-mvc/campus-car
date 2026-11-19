@@ -1,10 +1,9 @@
 package com.mvp.campuscar.model;
-import java.time.LocalDateTime;
 
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class Carona {
 
@@ -19,9 +18,9 @@ public class Carona {
     @NotBlank(message = "O destino é obrigatório")
     private String destino;
 
-    @NotNull(message = "A data e hora são obrigatórias")
-    @FutureOrPresent(message = "A carona deve ser no presente ou futuro")
-    private LocalDateTime dataHora;
+    @NotBlank(message = "Descreva sua disponibilidade")
+    @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres")
+    private String disponibilidade;
 
     @NotNull(message = "O número de vagas é obrigatório")
     @Min(value = 1, message = "Deve haver pelo menos 1 vaga disponível")
@@ -32,12 +31,12 @@ public class Carona {
     public Carona() {
     }
 
-    public Carona(Long id, Long motoristaId, String origem, String destino, LocalDateTime dataHora, Integer vagasDisponiveis) {
+    public Carona(Long id, Long motoristaId, String origem, String destino, String disponibilidade, Integer vagasDisponiveis) {
         this.id = id;
         this.motoristaId = motoristaId;
         this.origem = origem;
         this.destino = destino;
-        this.dataHora = dataHora;
+        this.disponibilidade = disponibilidade;
         this.vagasDisponiveis = vagasDisponiveis;
     }
 
@@ -74,12 +73,12 @@ public class Carona {
         this.destino = destino;
     }
 
-    public LocalDateTime getDataHora() {
-        return dataHora;
+    public String getDisponibilidade() {
+        return disponibilidade;
     }
 
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
+    public void setDisponibilidade(String disponibilidade) {
+        this.disponibilidade = disponibilidade;
     }
 
     public Integer getVagasDisponiveis() {

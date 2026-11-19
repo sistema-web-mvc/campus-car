@@ -19,7 +19,7 @@
                 <tr>
                     <th>Origem</th>
                     <th>Destino</th>
-                    <th>Data e horário</th>
+                    <th>Disponibilidade</th>
                     <th>Motorista</th>
                     <th>Vagas disponíveis</th>
                 </tr>
@@ -28,7 +28,7 @@
                 <tr th:each="carona : ${caronas}">
                     <td th:text="${carona.origem}">Origem</td>
                     <td th:text="${carona.destino}">Destino</td>
-                    <td th:text="${carona.dataHora}">Data e horário</td>
+                    <td th:text="${carona.disponibilidade}">Disponibilidade</td>
                     <td th:text="${carona.motorista.nome}">Motorista</td>
                     <td th:text="${carona.vagasDisponiveis}">0</td>
                 </tr>
