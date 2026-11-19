@@ -24,10 +24,8 @@ CREATE TABLE solicitacoes (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     carona_id BIGINT NOT NULL,
     passageiro_id BIGINT NOT NULL,
-    passageiro_is_motorista BOOLEAN NOT NULL DEFAULT FALSE CHECK (passageiro_is_motorista = FALSE),
     status VARCHAR(20) NOT NULL DEFAULT 'PENDENTE',
     CONSTRAINT fk_carona FOREIGN KEY (carona_id) REFERENCES caronas(id),
-    CONSTRAINT fk_passageiro FOREIGN KEY (passageiro_id, passageiro_is_motorista)
-        REFERENCES usuarios(id, is_motorista),
+    CONSTRAINT fk_passageiro FOREIGN KEY (passageiro_id) REFERENCES usuarios(id),
     CONSTRAINT uq_solicitacao_carona_passageiro UNIQUE (carona_id, passageiro_id)
 );

@@ -83,8 +83,6 @@ public class SolicitacaoController {
     }
 
     private List<Usuario> passageiros() {
-        return usuarioRepository.findAll().stream()
-                .filter(usuario -> !usuario.isMotorista())
-                .toList();
+        return usuarioRepository.findAll();
     }
 }
