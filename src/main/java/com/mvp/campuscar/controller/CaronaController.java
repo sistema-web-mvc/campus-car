@@ -1,8 +1,6 @@
 package com.mvp.campuscar.controller;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,13 +53,8 @@ public class CaronaController {
     }
 
     private List<Usuario> motoristasDisponiveis() {
-        Set<Long> motoristasComCarona = caronaRepository.findAll().stream()
-                .map(Carona::getMotoristaId)
-                .collect(Collectors.toSet());
-
         return usuarioRepository.findAll().stream()
                 .filter(Usuario::isMotorista)
-                .filter(motorista -> !motoristasComCarona.contains(motorista.getId()))
                 .toList();
     }
 }

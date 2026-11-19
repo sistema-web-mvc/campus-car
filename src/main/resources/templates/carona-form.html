@@ -17,7 +17,7 @@
                         th:text="${motorista.nome}"></option>
             </select>
             <p th:if="${#fields.hasErrors('motoristaId')}" th:errors="*{motoristaId}"></p>
-            <p th:if="${#lists.isEmpty(motoristas)}">Cadastre um motorista disponível antes de criar a carona.</p>
+            <p th:if="${#lists.isEmpty(motoristas)}">Cadastre um usuário marcado como motorista antes de criar a carona.</p>
 
             <label for="origem">Origem</label>
             <input id="origem" type="text" th:field="*{origem}">
@@ -27,9 +27,11 @@
             <input id="destino" type="text" th:field="*{destino}">
             <p th:if="${#fields.hasErrors('destino')}" th:errors="*{destino}"></p>
 
-            <label for="dataHora">Data e horário</label>
-            <input id="dataHora" type="datetime-local" th:field="*{dataHora}">
-            <p th:if="${#fields.hasErrors('dataHora')}" th:errors="*{dataHora}"></p>
+            <label for="disponibilidade">Disponibilidade habitual</label>
+            <textarea id="disponibilidade" rows="3" maxlength="255"
+                      placeholder="Ex.: Só dirijo de segunda a quarta"
+                      th:field="*{disponibilidade}"></textarea>
+            <p th:if="${#fields.hasErrors('disponibilidade')}" th:errors="*{disponibilidade}"></p>
 
             <label for="vagasDisponiveis">Vagas disponíveis</label>
             <input id="vagasDisponiveis" type="number" min="1" th:field="*{vagasDisponiveis}">

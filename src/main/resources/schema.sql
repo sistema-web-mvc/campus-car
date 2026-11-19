@@ -15,7 +15,6 @@ CREATE TABLE caronas (
     destino VARCHAR(100) NOT NULL,
     data_hora TIMESTAMP NOT NULL,
     vagas_disponiveis INT NOT NULL,
-    CONSTRAINT uq_carona_motorista UNIQUE (motorista_id),
     CONSTRAINT fk_motorista FOREIGN KEY (motorista_id, motorista_is_motorista)
         REFERENCES usuarios(id, is_motorista)
 );
