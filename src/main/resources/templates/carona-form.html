@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar carona - Campus Car</title>
+</head>
+<body>
+    <main>
+        <h1>Criar carona</h1>
+        <form th:action="@{/caronas/criar}" th:object="${carona}" method="post">
+            <label for="motoristaId">Motorista</label>
+            <select id="motoristaId" th:field="*{motoristaId}">
+                <option value="">Selecione um motorista</option>
+                <option th:each="motorista : ${motoristas}"
+                        th:value="${motorista.id}"
+                        th:text="${motorista.nome}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('motoristaId')}" th:errors="*{motoristaId}"></p>
+            <p th:if="${#lists.isEmpty(motoristas)}">Cadastre um motorista disponível antes de criar a carona.</p>
+
+            <label for="origem">Origem</label>
+            <input id="origem" type="text" th:field="*{origem}">
+            <p th:if="${#fields.hasErrors('origem')}" th:errors="*{origem}"></p>
+
+            <label for="destino">Destino</label>
+            <input id="destino" type="text" th:field="*{destino}">
+            <p th:if="${#fields.hasErrors('destino')}" th:errors="*{destino}"></p>
+
+            <label for="dataHora">Data e horário</label>
+            <input id="dataHora" type="datetime-local" th:field="*{dataHora}">
+            <p th:if="${#fields.hasErrors('dataHora')}" th:errors="*{dataHora}"></p>
+
+            <label for="vagasDisponiveis">Vagas disponíveis</label>
+            <input id="vagasDisponiveis" type="number" min="1" th:field="*{vagasDisponiveis}">
+            <p th:if="${#fields.hasErrors('vagasDisponiveis')}" th:errors="*{vagasDisponiveis}"></p>
+
+            <button type="submit" th:disabled="${#lists.isEmpty(motoristas)}">Salvar carona</button>
+        </form>
+        <a th:href="@{/caronas}">Voltar às caronas</a>
+    </main>
+</body>
+</html>
