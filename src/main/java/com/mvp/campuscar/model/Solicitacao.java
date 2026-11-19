@@ -1,6 +1,5 @@
 package com.mvp.campuscar.model;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class Solicitacao {
@@ -13,8 +12,9 @@ public class Solicitacao {
     @NotNull(message = "O ID do passageiro é obrigatório")
     private Long passageiroId;
 
-    @NotBlank(message = "O status é obrigatório")
-    private String status; // PENDENTE, ACEITA, RECUSADA
+    private String status = "PENDENTE";
+    private Carona carona;
+    private Usuario passageiro;
 
     public Solicitacao() {
     }
@@ -57,5 +57,21 @@ public class Solicitacao {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Carona getCarona() {
+        return carona;
+    }
+
+    public void setCarona(Carona carona) {
+        this.carona = carona;
+    }
+
+    public Usuario getPassageiro() {
+        return passageiro;
+    }
+
+    public void setPassageiro(Usuario passageiro) {
+        this.passageiro = passageiro;
     }
 }
