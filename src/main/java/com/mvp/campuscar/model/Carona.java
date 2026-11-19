@@ -27,6 +27,8 @@ public class Carona {
     @Min(value = 1, message = "Deve haver pelo menos 1 vaga disponível")
     private Integer vagasDisponiveis;
 
+    private Usuario motorista;
+
     public Carona() {
     }
 
@@ -86,5 +88,13 @@ public class Carona {
 
     public void setVagasDisponiveis(Integer vagasDisponiveis) {
         this.vagasDisponiveis = vagasDisponiveis;
+    }
+
+    public Usuario getMotorista() {
+        return motorista;
+    }
+
+    public void setMotorista(Usuario motorista) {
+        this.motorista = motorista;
     }
 }

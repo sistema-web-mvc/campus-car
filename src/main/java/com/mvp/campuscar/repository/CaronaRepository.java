@@ -1,6 +1,7 @@
 package com.mvp.campuscar.repository;
 
 import com.mvp.campuscar.model.Carona;
+import com.mvp.campuscar.model.Usuario;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,10 @@ public class CaronaRepository {
         carona.setDestino(rs.getString("destino"));
         carona.setDataHora(rs.getTimestamp("data_hora").toLocalDateTime());
         carona.setVagasDisponiveis(rs.getInt("vagas_disponiveis"));
+        Usuario motorista = new Usuario();
+        motorista.setId(carona.getMotoristaId());
+        motorista.setNome(rs.getString("motorista_nome"));
+        carona.setMotorista(motorista);
         return carona;
     };
 
@@ -39,7 +44,9 @@ public class CaronaRepository {
     }
 
     public List<Carona> findAll() {
-        String sql = "SELECT * FROM caronas";
+        String sql = "SELECT c.*, u.nome AS motorista_nome " +
+                     "FROM caronas c " +
+                     "JOIN usuarios u ON c.motorista_id = u.id";
         return jdbcTemplate.query(sql, rowMapper);
     }
 }
