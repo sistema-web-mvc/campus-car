@@ -1,0 +1,232 @@
+/* ==========================================================================
+   1. VARIÁVEIS E IDENTIDADE VISUAL (Paleta institucional + Mobilidade)
+   ========================================================================== */
+:root {
+  --cor-primaria: #15803d;       /* Verde institucional (IFTM) */
+  --cor-primaria-hover: #166534;
+  --cor-secundaria: #0284c7;     /* Azul destaque para ações/caronas */
+  --cor-perigo: #dc2626;         /* Excluir / Cancelar carona */
+  
+  --cor-fundo: #f1f5f9;
+  --cor-superficie: #ffffff;
+  --cor-texto: #0f172a;
+  --cor-texto-suave: #475569;
+  --cor-borda: #cbd5e1;
+
+  --largura-maxima: 1100px;
+  --raio: 8px;
+  --sombra: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+/* ==========================================================================
+   2. RESET E ESTRUTURA BASE (Sticky Footer)
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   3. CABEÇALHO E NAVEGAÇÃO (Estiliza direto seu <header> e <nav>)
+   ========================================================================== */
+header {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  box-shadow: var(--sombra);
+}
+
+header nav {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+header nav h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--raio);
+  transition: background-color 0.2s;
+}
+
+header nav a:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ==========================================================================
+   4. ÁREA PRINCIPAL (<main>)
+   ========================================================================== */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--largura-maxima);
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+main h2 {
+  margin-bottom: 1.25rem;
+  color: var(--cor-texto);
+  font-size: 1.6rem;
+}
+
+/* ==========================================================================
+   5. COMPONENTES REUTILIZÁVEIS PARA AS OUTRAS PÁGINAS
+   ========================================================================== */
+
+/* Cards (Ótimo para exibir cada oferta de carona) */
+.card {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--sombra);
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Botões */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--raio);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: var(--cor-primaria-hover);
+}
+
+.btn-secundario {
+  background-color: var(--cor-secundaria);
+}
+
+.btn-perigo {
+  background-color: var(--cor-perigo);
+}
+
+/* Formulários (Cadastro de usuários e novas caronas) */
+.form-grupo {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--cor-texto);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  font-size: 1rem;
+  background-color: var(--cor-superficie);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+}
+
+/* Tabelas (Listagem de usuários ou histórico) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+
+th, td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+th {
+  background-color: #e2e8f0;
+  font-weight: 700;
+}
+
+tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* ==========================================================================
+   6. RODAPÉ (<footer>)
+   ========================================================================== */
+footer {
+  background-color: var(--cor-superficie);
+  border-top: 1px solid var(--cor-borda);
+  text-align: center;
+  padding: 1.25rem;
+  color: var(--cor-texto-suave);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   7. RESPONSIVIDADE (Celular)
+   ========================================================================== */
+@media (max-width: 600px) {
+  header nav {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header nav ul {
+    gap: 0.75rem;
+  }
+}
