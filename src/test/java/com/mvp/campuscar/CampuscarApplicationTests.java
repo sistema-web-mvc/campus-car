@@ -68,6 +68,11 @@ class CampuscarApplicationTests {
 		mockMvc.perform(get("/solicitacoes/criar"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Solicitar carona")));
+
+		mockMvc.perform(get("/caronas"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/solicitacoes\"")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/usuarios/criar\"")));
 	}
 
 	@Test

@@ -6,6 +6,7 @@
     <title>Criar carona - Campus Car</title>
 </head>
 <body>
+    <header th:replace="~{base :: navegacao}"></header>
     <main>
         <h1>Criar carona</h1>
         <form th:action="@{/caronas/criar}" th:object="${carona}" method="post">
@@ -17,7 +18,10 @@
                         th:text="${motorista.nome}"></option>
             </select>
             <p th:if="${#fields.hasErrors('motoristaId')}" th:errors="*{motoristaId}"></p>
-            <p th:if="${#lists.isEmpty(motoristas)}">Cadastre um usuário marcado como motorista antes de criar a carona.</p>
+            <p th:if="${#lists.isEmpty(motoristas)}">
+                Cadastre um usuário marcado como motorista antes de criar a carona.
+                <a th:href="@{/usuarios/criar}">Cadastrar usuário</a>
+            </p>
 
             <label for="origem">Origem</label>
             <input id="origem" type="text" th:field="*{origem}">

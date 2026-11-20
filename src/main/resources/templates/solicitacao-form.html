@@ -6,7 +6,10 @@
     <title>Solicitar carona - Campus Car</title>
 </head>
 <body>
+    <header th:replace="~{base :: navegacao}"></header>
     <main>
+        <a th:href="@{/caronas}">Voltar às caronas</a>
+        <a th:href="@{/solicitacoes}">Ver solicitações existentes</a>
         <h1>Solicitar carona</h1>
         <p th:if="${enviado}">Solicitação enviada com sucesso.</p>
 
@@ -37,7 +40,7 @@
                 Enviar solicitação
             </button>
         </form>
-        <a th:href="@{/caronas}">Voltar às caronas</a>
+
     </main>
 </body>
 </html>

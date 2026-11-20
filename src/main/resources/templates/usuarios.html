@@ -6,9 +6,11 @@
     <title>Usuários - Campus Car</title>
 </head>
 <body>
+    <header th:replace="~{base :: navegacao}"></header>
     <main>
         <h1>Usuários</h1>
         <a th:href="@{/usuarios/criar}">Criar usuário</a>
+        <a th:href="@{/caronas/criar}">Criar carona</a>
 
         <p th:if="${#lists.isEmpty(usuarios)}">Nenhum usuário cadastrado.</p>
         <table th:unless="${#lists.isEmpty(usuarios)}">

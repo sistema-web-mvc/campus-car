@@ -7,8 +7,14 @@
     <title>Caronas</title>
 </head>
 <body>
+    
     <main>
         <h1>Carona disponíveis</h1>
+        <nav aria-label="Ações de carona">
+            <a th:href="@{/caronas/criar}">Oferecer carona</a>
+            <a th:href="@{/solicitacoes/criar}">Solicitar carona</a>
+            <a th:href="@{/solicitacoes}">Ver solicitações</a>
+        </nav>
 
         <p class="vazio" th:if="${#lists.isEmpty(caronas)}">
             Nenhuma carona encontrada.
