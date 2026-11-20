@@ -7,33 +7,42 @@
     <title>Caronas</title>
 </head>
 <body>
+    <header th:replace="~{base :: navegacao}"></header>
     <main>
-        <h1>Carona disponíveis</h1>
+        <nav aria-label="Navegação de caronas">
+            <a href="#caronas-disponiveis">Caronas disponíveis</a>
+            <a th:href="@{/solicitacoes}">Solicitações</a>
+            <a th:href="@{/solicitacoes/criar}">Solicitar carona</a>
+            <a th:href="@{/caronas/criar}">Criar carona</a>
+        </nav>
 
-        <p class="vazio" th:if="${#lists.isEmpty(caronas)}">
-            Nenhuma carona encontrada.
-        </p>
+        <section id="caronas-disponiveis" aria-labelledby="titulo-caronas">
+            <h1 id="titulo-caronas">Caronas disponíveis</h1>
+            <p class="vazio" th:if="${#lists.isEmpty(caronas)}">
+                Nenhuma carona encontrada.
+            </p>
 
-        <table th:unless="${#lists.isEmpty(caronas)}">
-            <thead>
-                <tr>
-                    <th>Origem</th>
-                    <th>Destino</th>
-                    <th>Data e horário</th>
-                    <th>Motorista</th>
-                    <th>Vagas disponíveis</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="carona : ${caronas}">
-                    <td th:text="${carona.origem}">Origem</td>
-                    <td th:text="${carona.destino}">Destino</td>
-                    <td th:text="${carona.dataHora}">Data e horário</td>
-                    <td th:text="${carona.motorista}">Motorista</td>
-                    <td th:text="${carona.vagasDisponiveis}">0</td>
-                </tr>
-            </tbody>
-        </table>
+            <table th:unless="${#lists.isEmpty(caronas)}">
+                <thead>
+                    <tr>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                        <th>Disponibilidade</th>
+                        <th>Motorista</th>
+                        <th>Vagas disponíveis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="carona : ${caronas}">
+                        <td th:text="${carona.origem}">Origem</td>
+                        <td th:text="${carona.destino}">Destino</td>
+                        <td th:text="${carona.disponibilidade}">Disponibilidade</td>
+                        <td th:text="${carona.motorista.nome}">Motorista</td>
+                        <td th:text="${carona.vagasDisponiveis}">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 </body>
 </html>

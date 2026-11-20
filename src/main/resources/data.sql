@@ -5,13 +5,35 @@ INSERT INTO usuarios (nome, email, telefone, is_motorista) VALUES ('Ygor Teodoro
 INSERT INTO usuarios (nome, email, telefone, is_motorista) VALUES ('Iara', 'iara@email.com', '34999959999', TRUE);
 INSERT INTO usuarios (nome, email, telefone, is_motorista) VALUES ('Oliver', 'oliver@email.com', '34999990999', FALSE);
 
--- Inserindo uma solicitação do João (ID 2) para a carona (ID 1)
-INSERT INTO solicitacoes (carona_id, passageiro_id, status) VALUES (1, 2, 'PENDENTE');
+-- Caronas e solicitações de exemplo (motoristas: Aquila e Iara; passageiros: João, Ygor e Oliver)
+INSERT INTO caronas (motorista_id, origem, destino, disponibilidade, vagas_disponiveis)
+VALUES ((SELECT id FROM usuarios WHERE email = 'aquila@email.com'), 'Centro', 'Campus', 'Dirijo de segunda a quarta pela manhã.', 3);
 
--- Inserindo novas caronas oferecidas pelos motoristas cadastrados (IDs 1 e 4)
-INSERT INTO caronas (motorista_id, origem, destino, data_hora, vagas_disponiveis)
-VALUES (1, 'Campus IFTM Centro', 'Uberaba Shopping', '2026-11-16 08:00:00', 2);
+INSERT INTO caronas (motorista_id, origem, destino, disponibilidade, vagas_disponiveis)
+VALUES ((SELECT id FROM usuarios WHERE email = 'iara@email.com'), 'Campus', 'Centro', 'Disponível para voltar ao Centro nos dias úteis à tarde.', 2);
 
-INSERT INTO caronas (motorista_id, origem, destino, data_hora, vagas_disponiveis)
-VALUES (4, 'Santa Mônica', 'Campus IFTM Centro', '2026-11-16 07:30:00', 3);
+INSERT INTO solicitacoes (carona_id, passageiro_id, status)
+VALUES (
+	(SELECT id FROM caronas WHERE origem = 'Centro' AND destino = 'Campus'
+	   AND motorista_id = (SELECT id FROM usuarios WHERE email = 'aquila@email.com')),
+	(SELECT id FROM usuarios WHERE email = 'joao@email.com'),
+	'PENDENTE'
+);
+
+INSERT INTO solicitacoes (carona_id, passageiro_id, status)
+VALUES (
+	(SELECT id FROM caronas WHERE origem = 'Centro' AND destino = 'Campus'
+	   AND motorista_id = (SELECT id FROM usuarios WHERE email = 'aquila@email.com')),
+	(SELECT id FROM usuarios WHERE email = 'ygor@email.com'),
+	'PENDENTE'
+);
+
+INSERT INTO solicitacoes (carona_id, passageiro_id, status)
+VALUES (
+	(SELECT id FROM caronas WHERE origem = 'Campus' AND destino = 'Centro'
+	   AND motorista_id = (SELECT id FROM usuarios WHERE email = 'iara@email.com')),
+	(SELECT id FROM usuarios WHERE email = 'oliver@email.com'),
+	'PENDENTE'
+);
+
 

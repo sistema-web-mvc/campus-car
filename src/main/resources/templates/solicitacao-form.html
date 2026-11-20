@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar carona - Campus Car</title>
+</head>
+<body>
+    <header th:replace="~{base :: navegacao}"></header>
+    <main>
+        <a th:href="@{/caronas}">Voltar às caronas</a>
+        <a th:href="@{/solicitacoes}">Ver solicitações existentes</a>
+        <h1>Solicitar carona</h1>
+        <p th:if="${enviado}">Solicitação enviada com sucesso.</p>
+
+        <p th:if="${#lists.isEmpty(caronas)}">Nenhuma carona cadastrada.</p>
+        <p th:if="${#lists.isEmpty(passageiros)}">Nenhum passageiro cadastrado.</p>
+
+        <form th:action="@{/solicitacoes/criar}" th:object="${solicitacao}" method="post">
+            <label for="caronaId">Carona</label>
+            <select id="caronaId" th:field="*{caronaId}">
+                <option value="">Selecione uma carona</option>
+                <option th:each="carona : ${caronas}"
+                        th:value="${carona.id}"
+                        th:text="${carona.origem + ' para ' + carona.destino + ' - ' + carona.motorista.nome + ' - ' + carona.disponibilidade}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('caronaId')}" th:errors="*{caronaId}"></p>
+
+            <label for="passageiroId">Passageiro</label>
+            <select id="passageiroId" th:field="*{passageiroId}">
+                <option value="">Selecione um passageiro</option>
+                <option th:each="passageiro : ${passageiros}"
+                        th:value="${passageiro.id}"
+                        th:text="${passageiro.nome}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('passageiroId')}" th:errors="*{passageiroId}"></p>
+
+            <button type="submit"
+                    th:disabled="${#lists.isEmpty(caronas) or #lists.isEmpty(passageiros)}">
+                Enviar solicitação
+            </button>
+        </form>
+
+    </main>
+</body>
+</html>

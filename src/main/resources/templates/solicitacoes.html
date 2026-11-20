@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitações de carona - Campus Car</title>
+</head>
+<body>
+    <header th:replace="~{base :: navegacao}"></header>
+    <main>
+        <a th:href="@{/solicitacoes/criar}">Criar solicitação</a>
+        <a th:href="@{/caronas}">Explorar caronas</a>
+
+        <h1>Solicitações de carona</h1>
+        <p th:if="${#lists.isEmpty(solicitacoes)}">Nenhuma solicitação cadastrada.</p>
+
+        <table th:unless="${#lists.isEmpty(solicitacoes)}">
+            <thead>
+                <tr>
+                    <th>Carona</th>
+                    <th>Motorista</th>
+                    <th>Passageiro</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="solicitacao : ${solicitacoes}">
+                    <td th:text="${solicitacao.carona.origem + ' para ' + solicitacao.carona.destino + ' - ' + solicitacao.carona.disponibilidade}">Carona</td>
+                    <td th:text="${solicitacao.carona.motorista.nome}">Motorista</td>
+                    <td th:text="${solicitacao.passageiro.nome}">Passageiro</td>
+                    <td th:text="${solicitacao.status}">PENDENTE</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários - Campus Car</title>
+</head>
+<body>
+    <header th:replace="~{base :: navegacao}"></header>
+    <main>
+        <nav aria-label="Navegação de usuários">
+            <a href="#lista-usuarios">Lista de usuários</a>
+            <a th:href="@{/usuarios/criar}">Criar usuário</a>
+        </nav>
+
+        <section id="lista-usuarios" aria-labelledby="titulo-usuarios">
+            <h1 id="titulo-usuarios">Usuários</h1>
+            <p th:if="${#lists.isEmpty(usuarios)}">Nenhum usuário cadastrado.</p>
+            <table th:unless="${#lists.isEmpty(usuarios)}">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.nome}">Nome</td>
+                        <td th:text="${usuario.email}">E-mail</td>
+                        <td th:text="${usuario.telefone}">Telefone</td>
+                        <td th:text="${usuario.motorista ? 'Motorista' : 'Passageiro'}">Tipo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

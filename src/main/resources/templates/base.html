@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
+    <header th:fragment="navegacao">
         <nav>
             <h1>Campus Car</h1>
             <ul>
@@ -19,8 +19,28 @@
         </nav>
     </header>
 
-    <main th:fragment="conteudo">
-        <!-- O conteúdo das outras páginas será injetado aqui -->
+    <main th:fragment="conteudo" class="home">
+        <section class="hero" aria-labelledby="titulo-home">
+            <p>Campus Car</p>
+            <h2 id="titulo-home">Compartilhe trajetos que combinam com a sua rotina</h2>
+            <p>
+                Encontre pessoas que fazem caminhos parecidos com o seu ou ofereça caronas
+                nos dias e horários que funcionam para você.
+            </p>
+        </section>
+
+        <section class="home-secoes" aria-label="Explore o Campus Car">
+            <article id="secao-caronas">
+                <h2>Caronas</h2>
+                <p>Consulte as disponibilidades e encontre uma carona compatível com sua rotina.</p>
+                <a th:href="@{/caronas}">Explorar caronas</a>
+            </article>
+            <article id="secao-usuarios">
+                <h2>Usuários</h2>
+                <p>Conheça as pessoas cadastradas na comunidade Campus Car.</p>
+                <a th:href="@{/usuarios}">Ver usuários</a>
+            </article>
+        </section>
     </main>
 
     <footer>

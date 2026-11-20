@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar usuário - Campus Car</title>
+</head>
+<body>
+    <header th:replace="~{base :: navegacao}"></header>
+    <main>
+        <a th:href="@{/usuarios}">Voltar aos usuários</a>
+        <a th:href="@{/caronas/criar}">Criar carona</a>
+        <a th:href="@{/solicitacoes/criar}">Criar solicitação</a>
+        <h1>Criar usuário</h1>
+        <form th:action="@{/usuarios/criar}" th:object="${usuario}" method="post">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" th:field="*{nome}">
+            <p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+
+            <label for="email">E-mail</label>
+            <input id="email" type="email" th:field="*{email}">
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+            <label for="telefone">Telefone</label>
+            <input id="telefone" type="tel" th:field="*{telefone}">
+            <p th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></p>
+
+            <label>
+                <input type="checkbox" th:field="*{motorista}">
+                Este usuário é motorista
+            </label>
+
+            <button type="submit">Salvar usuário</button>
+        </form>
+
+    </main>
+</body>
+</html>
