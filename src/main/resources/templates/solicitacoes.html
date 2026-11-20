@@ -8,6 +8,9 @@
 <body>
     <header th:replace="~{base :: navegacao}"></header>
     <main>
+        <a th:href="@{/solicitacoes/criar}">Criar solicitação</a>
+        <a th:href="@{/caronas}">Explorar caronas</a>
+
         <h1>Solicitações de carona</h1>
         <p th:if="${#lists.isEmpty(solicitacoes)}">Nenhuma solicitação cadastrada.</p>
 
@@ -30,8 +33,6 @@
             </tbody>
         </table>
 
-        <a th:href="@{/solicitacoes/criar}">Criar solicitação</a>
-        <a th:href="@{/caronas}">Explorar caronas</a>
     </main>
 </body>
 </html>

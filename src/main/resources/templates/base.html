@@ -14,17 +14,33 @@
             <ul>
                 <li><a th:href="@{/}">Home</a></li>
                 <li><a th:href="@{/caronas}">Caronas</a></li>
-                <li><a th:href="@{/caronas/criar}">Criar Carona</a></li>
-                <li><a th:href="@{/solicitacoes/criar}">Solicitar Carona</a></li>
-                <li><a th:href="@{/solicitacoes}">Solicitações</a></li>
-                <li><a th:href="@{/usuarios/criar}">Criar Usuário</a></li>
                 <li><a th:href="@{/usuarios}">Usuários</a></li>
             </ul>
         </nav>
     </header>
 
-    <main th:fragment="conteudo">
-        <!-- O conteúdo das outras páginas será injetado aqui -->
+    <main th:fragment="conteudo" class="home">
+        <section class="hero" aria-labelledby="titulo-home">
+            <p>Campus Car</p>
+            <h2 id="titulo-home">Compartilhe trajetos que combinam com a sua rotina</h2>
+            <p>
+                Encontre pessoas que fazem caminhos parecidos com o seu ou ofereça caronas
+                nos dias e horários que funcionam para você.
+            </p>
+        </section>
+
+        <section class="home-secoes" aria-label="Explore o Campus Car">
+            <article id="secao-caronas">
+                <h2>Caronas</h2>
+                <p>Consulte as disponibilidades e encontre uma carona compatível com sua rotina.</p>
+                <a th:href="@{/caronas}">Explorar caronas</a>
+            </article>
+            <article id="secao-usuarios">
+                <h2>Usuários</h2>
+                <p>Conheça as pessoas cadastradas na comunidade Campus Car.</p>
+                <a th:href="@{/usuarios}">Ver usuários</a>
+            </article>
+        </section>
     </main>
 
     <footer>

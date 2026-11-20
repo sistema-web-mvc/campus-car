@@ -56,6 +56,12 @@ class CampuscarApplicationTests {
 
 	@Test
 	void paginasDeCadastroSaoExibidas() throws Exception {
+		mockMvc.perform(get("/"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Compartilhe trajetos")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/caronas\"")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/usuarios\"")));
+
 		mockMvc.perform(get("/caronas/criar"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Criar carona")))
@@ -71,7 +77,13 @@ class CampuscarApplicationTests {
 
 		mockMvc.perform(get("/caronas"))
 				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"#caronas-disponiveis\"")))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/solicitacoes\"")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/caronas/criar\"")));
+
+		mockMvc.perform(get("/usuarios"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"#lista-usuarios\"")))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/usuarios/criar\"")));
 	}
 

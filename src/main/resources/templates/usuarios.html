@@ -8,29 +8,33 @@
 <body>
     <header th:replace="~{base :: navegacao}"></header>
     <main>
-        <h1>Usuários</h1>
-        <a th:href="@{/usuarios/criar}">Criar usuário</a>
-        <a th:href="@{/caronas/criar}">Criar carona</a>
+        <nav aria-label="Navegação de usuários">
+            <a href="#lista-usuarios">Lista de usuários</a>
+            <a th:href="@{/usuarios/criar}">Criar usuário</a>
+        </nav>
 
-        <p th:if="${#lists.isEmpty(usuarios)}">Nenhum usuário cadastrado.</p>
-        <table th:unless="${#lists.isEmpty(usuarios)}">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Telefone</th>
-                    <th>Tipo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="usuario : ${usuarios}">
-                    <td th:text="${usuario.nome}">Nome</td>
-                    <td th:text="${usuario.email}">E-mail</td>
-                    <td th:text="${usuario.telefone}">Telefone</td>
-                    <td th:text="${usuario.motorista ? 'Motorista' : 'Passageiro'}">Tipo</td>
-                </tr>
-            </tbody>
-        </table>
+        <section id="lista-usuarios" aria-labelledby="titulo-usuarios">
+            <h1 id="titulo-usuarios">Usuários</h1>
+            <p th:if="${#lists.isEmpty(usuarios)}">Nenhum usuário cadastrado.</p>
+            <table th:unless="${#lists.isEmpty(usuarios)}">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.nome}">Nome</td>
+                        <td th:text="${usuario.email}">E-mail</td>
+                        <td th:text="${usuario.telefone}">Telefone</td>
+                        <td th:text="${usuario.motorista ? 'Motorista' : 'Passageiro'}">Tipo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 </body>
 </html>

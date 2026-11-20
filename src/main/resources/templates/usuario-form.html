@@ -8,6 +8,9 @@
 <body>
     <header th:replace="~{base :: navegacao}"></header>
     <main>
+        <a th:href="@{/usuarios}">Voltar aos usuários</a>
+        <a th:href="@{/caronas/criar}">Criar carona</a>
+        <a th:href="@{/solicitacoes/criar}">Criar solicitação</a>
         <h1>Criar usuário</h1>
         <form th:action="@{/usuarios/criar}" th:object="${usuario}" method="post">
             <label for="nome">Nome</label>
@@ -29,8 +32,7 @@
 
             <button type="submit">Salvar usuário</button>
         </form>
-        <a th:href="@{/usuarios}">Voltar aos usuários</a>
-        <a th:href="@{/caronas/criar}">Criar carona</a>
+
     </main>
 </body>
 </html>
