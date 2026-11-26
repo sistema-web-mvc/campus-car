@@ -1,35 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 /* ==========================================================================
-   1. VARIÁVEIS E IDENTIDADE VISUAL (Paleta institucional + Mobilidade)
+   1. DESIGN TOKENS — MIDNIGHT NAVY, ROYAL INDIGO & ALABASTER GLASS
    ========================================================================== */
 :root {
-  --cor-primaria: #15803d;       /* Verde institucional (IFTM) */
-  --cor-primaria-hover: #166534;
-  --cor-secundaria: #0284c7;     /* Azul destaque para ações/caronas */
-  --cor-perigo: #dc2626;         /* Excluir / Cancelar carona */
-  
-  --cor-fundo: #f1f5f9;
-  --cor-superficie: #ffffff;
-  --cor-texto: #0f172a;
-  --cor-texto-suave: #475569;
-  --cor-borda: #cbd5e1;
+  --cor-primaria: #1E1B4B;          /* Índigo Meia-Noite Profundo */
+  --cor-acento: #4F46E5;            /* Índigo Elétrico Sofisticado */
+  --cor-acento-hover: #3730A3;
+  --cor-ciano: #0EA5E9;             /* Brilho de destaque */
+  --cor-sucesso: #059669;
+  --cor-perigo: #E11D48;            /* Carmesim para erros de validação */
 
-  --largura-maxima: 1100px;
-  --raio: 8px;
-  --sombra: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --cor-fundo: #F4F6FA;             /* Alabastro frio */
+  --cor-superficie: #FFFFFF;
+  --cor-texto: #0F172A;             /* Ardósia escuro */
+  --cor-texto-suave: #64748B;
+  --cor-borda: #E2E8F0;
+
+  --largura-maxima: 1120px;
+  --raio: 16px;
+  --transicao: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  --sombra-suave: 0 4px 24px -6px rgba(15, 23, 42, 0.06);
+  --sombra-elevada: 0 16px 32px -10px rgba(30, 27, 75, 0.14);
 }
 
 /* ==========================================================================
-   2. RESET E ESTRUTURA BASE (Sticky Footer)
+   2. RESET E BASE GLOBAL
    ========================================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--cor-fundo);
+  background-image:
+    radial-gradient(circle at 12% 0%, rgba(79, 70, 229, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(14, 165, 233, 0.07) 0%, transparent 45%);
   color: var(--cor-texto);
   line-height: 1.6;
   display: flex;
@@ -38,128 +51,392 @@ body {
 }
 
 /* ==========================================================================
-   3. CABEÇALHO E NAVEGAÇÃO (Estiliza direto seu <header> e <nav>)
+   3. CABEÇALHO GLOBAL EM DUAS ILHAS TRANSLÚCIDAS (<header th:fragment="navegacao">)
    ========================================================================== */
 header {
-  background-color: var(--cor-primaria);
-  color: #ffffff;
-  box-shadow: var(--sombra);
+  padding: 20px 24px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 header nav {
   max-width: var(--largura-maxima);
   margin: 0 auto;
-  padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 16px;
 }
 
+/* Ilha 1: Identidade Campus Car */
 header nav h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: var(--sombra-suave);
+  border-radius: var(--raio);
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--cor-texto);
+  letter-spacing: -0.4px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
 }
 
+header nav h1::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21c-4-4.2-7-7.6-7-10.8a7 7 0 1 1 14 0c0 3.2-3 6.6-7 10.8z'/%3E%3Cpath d='M8.5 11.5h7l-.8-2.2a1 1 0 0 0-.9-.6h-3.6a1 1 0 0 0-.9.6l-.8 2.2z' fill='white' stroke='none'/%3E%3Ccircle cx='9.5' cy='12.5' r='1' fill='%231E1B4B' stroke='none'/%3E%3Ccircle cx='14.5' cy='12.5' r='1' fill='%231E1B4B' stroke='none'/%3E%3C/svg%3E"),
+                    linear-gradient(135deg, #0F172A, #4F46E5);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 22px, 100% 100%;
+  flex-shrink: 0;
+}
+
+/* Ilha 2: Menu Translúcido */
 header nav ul {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: var(--sombra-suave);
+  border-radius: var(--raio);
+  padding: 6px;
 }
 
 header nav a {
-  color: #ffffff;
+  display: block;
+  color: var(--cor-texto-suave);
   text-decoration: none;
-  font-weight: 500;
-  padding: 0.4rem 0.75rem;
-  border-radius: var(--raio);
-  transition: background-color 0.2s;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 8px 18px;
+  border-radius: 11px;
+  border: 1px solid transparent;
+  transition: var(--transicao);
 }
 
 header nav a:hover {
-  background-color: rgba(255, 255, 255, 0.18);
+  background: rgba(79, 70, 229, 0.09);
+  border-color: rgba(79, 70, 229, 0.20);
+  color: var(--cor-acento);
+  transform: translateY(-1px);
+}
+
+header nav a:active {
+  background: rgba(79, 70, 229, 0.16);
+  transform: scale(0.97);
 }
 
 /* ==========================================================================
-   4. ÁREA PRINCIPAL (<main>)
+   4. CONTAINER PRINCIPAL (<main>) E TÍTULOS DE PÁGINA
    ========================================================================== */
 main {
   flex: 1;
   width: 100%;
   max-width: var(--largura-maxima);
-  margin: 2rem auto;
-  padding: 0 1.5rem;
+  margin: 0 auto;
+  padding: 36px 24px 64px;
 }
 
-main h2 {
-  margin-bottom: 1.25rem;
+main > h1,
+main > section > h1 {
+  font-size: 1.95rem;
+  font-weight: 800;
   color: var(--cor-texto);
-  font-size: 1.6rem;
+  letter-spacing: -0.6px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+main > h1::before,
+main > section > h1::before {
+  content: "";
+  width: 6px;
+  height: 26px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--cor-acento), var(--cor-ciano));
+  display: inline-block;
 }
 
 /* ==========================================================================
-   5. COMPONENTES REUTILIZÁVEIS PARA AS OUTRAS PÁGINAS
+   5. SUB-NAVEGAÇÃO DE AÇÕES E BOTÕES FLUTUANTES
+      (caronas.html, usuarios.html, solicitacoes.html, *-form.html)
    ========================================================================== */
-
-/* Cards (Ótimo para exibir cada oferta de carona) */
-.card {
-  background-color: var(--cor-superficie);
+main > nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: var(--sombra);
+  box-shadow: var(--sombra-suave);
 }
 
-.grid-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.25rem;
-}
-
-/* Botões */
-.btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  background-color: var(--cor-primaria);
-  color: #ffffff;
-  text-decoration: none;
-  border: none;
-  border-radius: var(--raio);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn:hover {
-  background-color: var(--cor-primaria-hover);
-}
-
-.btn-secundario {
-  background-color: var(--cor-secundaria);
-}
-
-.btn-perigo {
-  background-color: var(--cor-perigo);
-}
-
-/* Formulários (Cadastro de usuários e novas caronas) */
-.form-grupo {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.35rem;
+main > nav a,
+main > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--cor-superficie);
   color: var(--cor-texto);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: var(--transicao);
+}
+
+main > a {
+  margin: 0 10px 22px 0;
+}
+
+/* Destaque automático no botão principal de criação/ação (último item da barra ou criar) */
+main > nav a:last-child,
+main > a[href*="/criar"] {
+  background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-acento) 100%);
+  color: #FFFFFF;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.24);
+}
+
+main > nav a:hover,
+main > a:hover {
+  transform: translateY(-2px);
+  border-color: var(--cor-acento);
+  color: var(--cor-acento);
+  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.14);
+}
+
+main > nav a:last-child:hover,
+main > a[href*="/criar"]:hover {
+  color: #FFFFFF;
+  filter: brightness(1.08);
+  box-shadow: 0 12px 26px rgba(79, 70, 229, 0.34);
+}
+
+main > nav a:active,
+main > a:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* ==========================================================================
+   6. PÁGINA INICIAL — BANNER HERO E CARTÕES (base.html)
+   ========================================================================== */
+.hero {
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 58%, #312E81 100%);
+  color: #FFFFFF;
+  border-radius: 24px;
+  padding: 48px 44px;
+  margin-bottom: 28px;
+  box-shadow: var(--sombra-elevada);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.45) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero > p:first-child {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #A5B4FC;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 16px;
+}
+
+.hero h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  margin-bottom: 14px;
+  max-width: 640px;
+}
+
+.hero p:last-child {
+  color: #CBD5E1;
+  font-size: 1.02rem;
+  max-width: 580px;
+}
+
+.home-secoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.home-secoes article {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: var(--sombra-suave);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transicao);
+}
+
+.home-secoes article:hover {
+  transform: translateY(-4px);
+  border-color: rgba(79, 70, 229, 0.35);
+  box-shadow: var(--sombra-elevada);
+}
+
+.home-secoes article h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--cor-texto);
+  margin-bottom: 10px;
+}
+
+.home-secoes article p {
+  color: var(--cor-texto-suave);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+
+.home-secoes article a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 11px 22px;
+  background: var(--cor-primaria);
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(30, 27, 75, 0.18);
+  transition: var(--transicao);
+}
+
+.home-secoes article a:hover {
+  background: var(--cor-acento);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.28);
+}
+
+.home-secoes article a:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   7. MENSAGENS DE ESTADO VAZIO, SUCESSO E ALERTAS
+   ========================================================================== */
+main > p,
+main > section > p {
+  background: var(--cor-superficie);
+  border: 1px dashed #CBD5E1;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  color: var(--cor-texto-suave);
+  font-size: 0.96rem;
+  font-weight: 600;
+  box-shadow: var(--sombra-suave);
+}
+
+p.vazio {
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* ==========================================================================
+   8. FORMULÁRIOS SOFISTICADOS (carona-form, solicitacao-form, usuario-form)
+   ========================================================================== */
+main form {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 22px;
+  padding: 2.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--sombra-suave);
+  max-width: 720px;
+}
+
+form label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.88rem;
+  margin-top: 1.15rem;
+  margin-bottom: 0.45rem;
+  color: var(--cor-texto);
+}
+
+form label:first-of-type {
+  margin-top: 0;
+}
+
+/* Alinhamento elegante para o checkbox "Este usuário é motorista" */
+form label:has(input[type="checkbox"]) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1.35rem;
+  padding: 12px 16px;
+  background: #F8FAFC;
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transicao);
+}
+
+form label:has(input[type="checkbox"]):hover {
+  border-color: var(--cor-acento);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--cor-acento);
+  cursor: pointer;
 }
 
 input[type="text"],
 input[type="email"],
+input[type="tel"],
 input[type="password"],
 input[type="date"],
 input[type="time"],
@@ -167,66 +444,197 @@ input[type="number"],
 select,
 textarea {
   width: 100%;
-  padding: 0.65rem 0.85rem;
+  padding: 0.78rem 1rem;
   border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  font-size: 1rem;
-  background-color: var(--cor-superficie);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+  background-color: #F8FAFC;
+  transition: var(--transicao);
 }
 
-input:focus, select:focus, textarea:focus {
+textarea {
+  resize: vertical;
+  min-height: 92px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
-  border-color: var(--cor-primaria);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+  background-color: var(--cor-superficie);
+  border-color: var(--cor-acento);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
 }
 
-/* Tabelas (Listagem de usuários ou histórico) */
+/* Mensagens de erro e avisos dentro dos formulários */
+form p {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-perigo);
+  margin-top: 6px;
+}
+
+form p a {
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--cor-acento);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Botões Submit com Transição Fluida */
+button,
+input[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.6rem;
+  padding: 0.82rem 1.75rem;
+  background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-acento) 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.24);
+  transition: var(--transicao);
+}
+
+button:hover:not(:disabled),
+input[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(79, 70, 229, 0.36);
+  filter: brightness(1.06);
+}
+
+button:active:not(:disabled),
+input[type="submit"]:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+
+button:disabled {
+  background: #CBD5E1;
+  color: #64748B;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================================================
+   9. TABELAS EM CARTÕES FLUTUANTES (caronas, solicitacoes, usuarios)
+   ========================================================================== */
 table {
   width: 100%;
-  border-collapse: collapse;
-  background-color: var(--cor-superficie);
-  border-radius: var(--raio);
-  overflow: hidden;
-  box-shadow: var(--sombra);
+  border-collapse: separate;
+  border-spacing: 0 12px;
 }
 
-th, td {
-  padding: 0.9rem 1rem;
+thead th {
   text-align: left;
-  border-bottom: 1px solid var(--cor-borda);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--cor-texto-suave);
+  padding: 0 22px 6px;
 }
 
-th {
-  background-color: #e2e8f0;
+thead th:last-child {
+  text-align: center;
+}
+
+tbody tr {
+  background-color: var(--cor-superficie);
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicao);
+}
+
+tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-elevada);
+}
+
+tbody td {
+  padding: 18px 22px;
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+  border-top: 1px solid var(--cor-borda);
+  border-bottom: 1px solid var(--cor-borda);
+  transition: border-color 0.25s ease;
+}
+
+tbody tr:hover td {
+  border-color: rgba(79, 70, 229, 0.30);
+}
+
+tbody td:first-child {
+  border-left: 1px solid var(--cor-borda);
+  border-top-left-radius: var(--raio);
+  border-bottom-left-radius: var(--raio);
   font-weight: 700;
 }
 
-tr:hover td {
-  background-color: #f8fafc;
+tbody td:nth-child(2) {
+  font-weight: 700;
+  color: var(--cor-acento);
+}
+
+/* Última coluna (Vagas disponíveis / Status / Tipo Motorista-Passageiro) */
+tbody td:last-child {
+  border-right: 1px solid var(--cor-borda);
+  border-top-right-radius: var(--raio);
+  border-bottom-right-radius: var(--raio);
+  text-align: center;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  background-color: rgba(79, 70, 229, 0.05);
 }
 
 /* ==========================================================================
-   6. RODAPÉ (<footer>)
+   10. RODAPÉ (<footer>)
    ========================================================================== */
 footer {
-  background-color: var(--cor-superficie);
+  background-color: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
   border-top: 1px solid var(--cor-borda);
   text-align: center;
-  padding: 1.25rem;
+  padding: 1.35rem;
   color: var(--cor-texto-suave);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  margin-top: auto;
 }
 
 /* ==========================================================================
-   7. RESPONSIVIDADE (Celular)
+   11. RESPONSIVIDADE
    ========================================================================== */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   header nav {
     flex-direction: column;
-    text-align: center;
+    align-items: stretch;
   }
 
+  header nav h1,
   header nav ul {
-    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 32px 24px;
+  }
+
+  .hero h2 {
+    font-size: 1.7rem;
+  }
+
+  main form {
+    padding: 1.5rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
   }
 }
