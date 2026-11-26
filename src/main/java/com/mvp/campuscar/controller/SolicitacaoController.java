@@ -60,6 +60,15 @@ public class SolicitacaoController {
         List<Carona> caronas = caronaRepository.findAll();
         List<Usuario> passageiros = passageiros();
 
+        if (solicitacaoRepository.existsByCaronaIdAndPassageiroId(solicitacao.getCaronaId(), solicitacao.getPassageiroId())) {
+            // Se for uma aplicação web com templates (Thymeleaf, etc.):
+            result.rejectValue("caronaId", "duplicada", "Você já solicitou esta carona.");
+            return "solicitacao-form";
+            
+            // Ou, se for uma API REST:
+            // return ResponseEntity.status(HttpStatus.CONFLICT).body("Solicitação já existente.");
+        }
+
         if (solicitacao.getCaronaId() != null
                 && caronas.stream().noneMatch(carona -> carona.getId().equals(solicitacao.getCaronaId()))) {
             result.rejectValue("caronaId", "solicitacao.caronaId.invalido", "Selecione uma carona cadastrada.");
@@ -80,6 +89,7 @@ public class SolicitacaoController {
         solicitacao.setStatus("PENDENTE");
         solicitacaoRepository.save(solicitacao);
         return "redirect:/solicitacoes/criar?enviado=true";
+
     }
 
     private List<Usuario> passageiros() {

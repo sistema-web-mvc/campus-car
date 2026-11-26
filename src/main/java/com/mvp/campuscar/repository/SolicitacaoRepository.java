@@ -1,13 +1,14 @@
 package com.mvp.campuscar.repository;
 
-import com.mvp.campuscar.model.Carona;
-import com.mvp.campuscar.model.Solicitacao;
-import com.mvp.campuscar.model.Usuario;
+import java.util.List;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.mvp.campuscar.model.Carona;
+import com.mvp.campuscar.model.Solicitacao;
+import com.mvp.campuscar.model.Usuario;
 
 @Repository
 public class SolicitacaoRepository {
@@ -64,5 +65,11 @@ public class SolicitacaoRepository {
                 "JOIN usuarios m ON c.motorista_id = m.id " +
                 "JOIN usuarios p ON s.passageiro_id = p.id";
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public boolean existsByCaronaIdAndPassageiroId(Long caronaId, Long passageiroId) {
+        String sql = "SELECT COUNT(*) FROM solicitacoes WHERE carona_id = ? AND passageiro_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, caronaId, passageiroId);
+        return count != null && count > 0;
     }
 }
