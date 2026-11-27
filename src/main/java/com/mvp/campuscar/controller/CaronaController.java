@@ -11,36 +11,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.mvp.campuscar.model.Carona;
 import com.mvp.campuscar.model.Usuario;
-import com.mvp.campuscar.repository.CaronaRepository;
-import com.mvp.campuscar.repository.UsuarioRepository;
+import com.mvp.campuscar.service.CaronaService;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class CaronaController {
 
-    private final CaronaRepository caronaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final CaronaService caronaService;
 
-    public CaronaController(CaronaRepository caronaRepository, UsuarioRepository usuarioRepository) {
-        this.caronaRepository = caronaRepository;
-        this.usuarioRepository = usuarioRepository;
+    public CaronaController(CaronaService caronaService) {
+        this.caronaService = caronaService;
     }
 
     @GetMapping("/caronas/criar")
     public String formulario(Model model) {
         model.addAttribute("carona", new Carona());
-        model.addAttribute("motoristas", motoristasDisponiveis());
+        model.addAttribute("motoristas", caronaService.motoristasDisponiveis());
         return "carona-form";
     }
 
     @PostMapping("/caronas/criar")
     public String criar(@Valid @ModelAttribute("carona") Carona carona, BindingResult result, Model model) {
-        List<Usuario> motoristas = motoristasDisponiveis();
-        if (carona.getMotoristaId() != null
-                && motoristas.stream().noneMatch(motorista -> motorista.getId().equals(carona.getMotoristaId()))) {
-            result.rejectValue("motoristaId", "carona.motoristaId.indisponivel",
-                    "Selecione um motorista disponível.");
+        List<Usuario> motoristas = caronaService.motoristasDisponiveis();
+        try {
+            caronaService.validarMotoristaDisponivel(carona.getMotoristaId());
+        } catch (IllegalStateException e) {
+            result.rejectValue("motoristaId", "carona.motoristaId.indisponivel", e.getMessage());
         }
 
         model.addAttribute("motoristas", motoristas);
@@ -48,13 +45,7 @@ public class CaronaController {
             return "carona-form";
         }
 
-        caronaRepository.save(carona);
+        caronaService.criarCarona(carona);
         return "redirect:/caronas";
-    }
-
-    private List<Usuario> motoristasDisponiveis() {
-        return usuarioRepository.findAll().stream()
-                .filter(Usuario::isMotorista)
-                .toList();
     }
 }
