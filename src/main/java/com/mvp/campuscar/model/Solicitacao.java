@@ -6,10 +6,10 @@ public class Solicitacao {
 
     private Long id;
 
-    @NotNull(message = "O ID da carona é obrigatório")
+    @NotNull(message = "Selecione uma carona.")
     private Long caronaId;
 
-    @NotNull(message = "O ID do passageiro é obrigatório")
+    @NotNull(message = "Selecione um usuário.")
     private Long passageiroId;
 
     private String status = "PENDENTE";
