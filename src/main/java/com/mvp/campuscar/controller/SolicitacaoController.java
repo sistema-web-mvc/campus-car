@@ -16,6 +16,7 @@ import com.mvp.campuscar.model.Usuario;
 import com.mvp.campuscar.repository.CaronaRepository;
 import com.mvp.campuscar.repository.SolicitacaoRepository;
 import com.mvp.campuscar.repository.UsuarioRepository;
+import com.mvp.campuscar.service.SolicitacaoService;
 
 import jakarta.validation.Valid;
 
@@ -25,14 +26,17 @@ public class SolicitacaoController {
     private final SolicitacaoRepository solicitacaoRepository;
     private final CaronaRepository caronaRepository;
     private final UsuarioRepository usuarioRepository;
+    private final SolicitacaoService solicitacaoService;
 
     public SolicitacaoController(
             SolicitacaoRepository solicitacaoRepository,
             CaronaRepository caronaRepository,
-            UsuarioRepository usuarioRepository) {
+            UsuarioRepository usuarioRepository,
+            SolicitacaoService solicitacaoService) {
         this.solicitacaoRepository = solicitacaoRepository;
         this.caronaRepository = caronaRepository;
         this.usuarioRepository = usuarioRepository;
+        this.solicitacaoService = solicitacaoService;
     }
 
     @GetMapping("/solicitacoes")
@@ -60,36 +64,32 @@ public class SolicitacaoController {
         List<Carona> caronas = caronaRepository.findAll();
         List<Usuario> passageiros = passageiros();
 
-        if (solicitacaoRepository.existsByCaronaIdAndPassageiroId(solicitacao.getCaronaId(), solicitacao.getPassageiroId())) {
-            // Se for uma aplicação web com templates (Thymeleaf, etc.):
-            result.rejectValue("caronaId", "duplicada", "Você já solicitou esta carona.");
-            return "solicitacao-form";
-            
-            // Ou, se for uma API REST:
-            // return ResponseEntity.status(HttpStatus.CONFLICT).body("Solicitação já existente.");
-        }
-
-        if (solicitacao.getCaronaId() != null
-                && caronas.stream().noneMatch(carona -> carona.getId().equals(solicitacao.getCaronaId()))) {
+        if (solicitacao.getCaronaId() != null) {
             result.rejectValue("caronaId", "solicitacao.caronaId.invalido", "Selecione uma carona cadastrada.");
         }
-        if (solicitacao.getPassageiroId() != null
-                && passageiros.stream().noneMatch(passageiro -> passageiro.getId().equals(solicitacao.getPassageiroId()))) {
-            result.rejectValue("passageiroId", "solicitacao.passageiroId.invalido",
-                    "Selecione um passageiro cadastrado.");
+
+        if (solicitacao.getPassageiroId() != null) {
+            result.rejectValue("passageiroId", "solicitacao.passageiroId.invalido", "Selecione um passageiro cadastrado.");
         }
 
-        model.addAttribute("caronas", caronas);
-        model.addAttribute("passageiros", passageiros);
-        model.addAttribute("enviado", false);
         if (result.hasErrors()) {
+            model.addAttribute("caronas", caronas);
+            model.addAttribute("passageiros", passageiros);
+            model.addAttribute("enviado", false);
             return "solicitacao-form";
         }
 
-        solicitacao.setStatus("PENDENTE");
-        solicitacaoRepository.save(solicitacao);
-        return "redirect:/solicitacoes/criar?enviado=true";
+        try {
+            solicitacaoService.criarSolicitacao(solicitacao);
+        } catch (IllegalStateException e) {
+            result.reject("solicitacao.duplicada", e.getMessage());
+            model.addAttribute("caronas", caronas);
+            model.addAttribute("passageiros", passageiros);
+            model.addAttribute("enviado", false);
+            return "solicitacao-form";
+        }
 
+        return "redirect:/solicitacoes/criar?enviado=true";
     }
 
     private List<Usuario> passageiros() {
