@@ -121,6 +121,19 @@ class CampuscarApplicationTests {
 	}
 
 	@Test
+	void rejeitaCaronaComMotoristaIndisponivel() throws Exception {
+		mockMvc.perform(post("/caronas/criar")
+						.param("motoristaId", "-1")
+						.param("origem", "Centro")
+						.param("destino", "Campus")
+						.param("disponibilidade", "Todos os dias")
+						.param("vagasDisponiveis", "2"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString(
+						"Selecione um motorista disponível.")));
+	}
+
+	@Test
 	void criaSolicitacaoParaCaronaCadastrada() throws Exception {
 		String emailMotorista = "solicitante-" + UUID.randomUUID() + "@example.com";
 		usuarioRepository.save(new Usuario(null, "Motorista solicitante", emailMotorista, "34999999997", true));
@@ -149,6 +162,51 @@ class CampuscarApplicationTests {
 		mockMvc.perform(get("/solicitacoes"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Motorista solicitante")));
+	}
+
+	@Test
+	void rejeitaSolicitacaoDoMotoristaParaPropriaCarona() throws Exception {
+		var carona = caronaRepository.findAll().get(0);
+
+		mockMvc.perform(post("/solicitacoes/criar")
+						.param("caronaId", carona.getId().toString())
+						.param("passageiroId", carona.getMotoristaId().toString()))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString(
+						"Você não pode solicitar sua própria carona.")));
+	}
+
+	@Test
+	void rejeitaSolicitacaoDuplicadaParaMesmaCarona() throws Exception {
+		String email = "solicitante-" + UUID.randomUUID() + "@example.com";
+		usuarioRepository.save(new Usuario(null, "Solicitante", email, "34999999996", false));
+		Long usuarioId = usuarioRepository.findAll().stream()
+				.filter(usuario -> email.equals(usuario.getEmail()))
+				.findFirst()
+				.orElseThrow()
+				.getId();
+		Long caronaId = caronaRepository.findAll().get(0).getId();
+
+		mockMvc.perform(post("/solicitacoes/criar")
+						.param("caronaId", caronaId.toString())
+						.param("passageiroId", usuarioId.toString()))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/solicitacoes/criar?enviado=true"));
+
+		mockMvc.perform(post("/solicitacoes/criar")
+						.param("caronaId", caronaId.toString())
+						.param("passageiroId", usuarioId.toString()))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString(
+						"Este usuário já solicitou esta carona.")));
+	}
+
+	@Test
+	void mostraErrosQuandoCamposObrigatoriosEstaoVazios() throws Exception {
+		mockMvc.perform(post("/solicitacoes/criar"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Selecione uma carona.")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Selecione um usuário.")));
 	}
 
 }

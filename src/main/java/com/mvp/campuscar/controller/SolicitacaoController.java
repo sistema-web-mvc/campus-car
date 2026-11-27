@@ -1,6 +1,7 @@
 package com.mvp.campuscar.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,14 +65,6 @@ public class SolicitacaoController {
         List<Carona> caronas = caronaRepository.findAll();
         List<Usuario> passageiros = passageiros();
 
-        if (solicitacao.getCaronaId() != null) {
-            result.rejectValue("caronaId", "solicitacao.caronaId.invalido", "Selecione uma carona cadastrada.");
-        }
-
-        if (solicitacao.getPassageiroId() != null) {
-            result.rejectValue("passageiroId", "solicitacao.passageiroId.invalido", "Selecione um passageiro cadastrado.");
-        }
-
         if (result.hasErrors()) {
             model.addAttribute("caronas", caronas);
             model.addAttribute("passageiros", passageiros);
@@ -79,10 +72,10 @@ public class SolicitacaoController {
             return "solicitacao-form";
         }
 
-        try {
-            solicitacaoService.criarSolicitacao(solicitacao);
-        } catch (IllegalStateException e) {
-            result.reject("solicitacao.duplicada", e.getMessage());
+        Map<String, String> erros = solicitacaoService.criarSolicitacao(solicitacao);
+        if (!erros.isEmpty()) {
+            erros.forEach((campo, mensagem) ->
+                    result.rejectValue(campo, "solicitacao.invalida", mensagem));
             model.addAttribute("caronas", caronas);
             model.addAttribute("passageiros", passageiros);
             model.addAttribute("enviado", false);
